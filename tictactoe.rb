@@ -1,18 +1,16 @@
 require_relative 'board'
-require_relative 'player'
+require_relative 'computer_player'
 
 class TicTacToe
 
-	def initialize
+	def initialize(player1, player2)
 		@board = Board.new
-		@players = [Player.new('X'),Player.new('O')]
+		@players = [player1, player2]
 		@curr_i = 0
-		@over = false
-		
+		@over = false	
 	end
 
 	def run
-		puts "Welcome to Tic Tac Toe!"
 		while ! @over
 			@board.draw_grid
 			puts "Enter the number that corresponds "\
@@ -23,19 +21,16 @@ class TicTacToe
 
 	def try_move
 		attempt = gets.chomp
-		if not attempt.respond_to?(:to_i)
-			puts "You did not enter a number. Please try again."
-		else
-			attempt = attempt.to_i
-		end
-		if not (1 <= attempt and attempt <= 9)
+		attempt = attempt.to_i
+
+		if not attempt.between?(1,9)
 			puts "You did not enter a valid option. Please try again."
-		elsif @board.cels_used.include?((attempt))
+		elsif @board.cels_used.include?(attempt)
 			puts "Sorry, that move has already been played."
 		else
 			num_moves = @board.make_move(@players[@curr_i].id, attempt)
 			@players[@curr_i].add_move(attempt)
-			check_winner(num_moves)
+			check_winner(num_moves) if num_moves > 4
 			@curr_i = (@curr_i+1) % 2
 		end
 	end
@@ -71,10 +66,3 @@ class TicTacToe
 		puts winner == @curr_i ? "PLAYER #{@players[@curr_i].id} WINS!" : "DRAW!"
 	end
 end
-
-def main
-	game = TicTacToe.new
-	game.run
-end
-
-main

@@ -1,6 +1,5 @@
 class Player
-	attr_reader :id
-	attr_reader :my_moves
+	attr_reader :id, :my_moves
 
 	def initialize(id)
 		@id = id

@@ -2,6 +2,7 @@ require_relative 'board'
 require_relative 'computer_player'
 
 class TicTacToe
+	include Find_Winner
 
 	def initialize(player1, player2)
 		@board = Board.new
@@ -36,29 +37,13 @@ class TicTacToe
 	end
 
 	def check_winner(num_moves)
-		if winner?
+		if winner?(@players[@curr_i].my_moves,Board.winners)
 			@over = true
 			display_winner
 		elsif num_moves == 9
 			@over = true
 			display_winner(-1)
 		end
-	end
-
-	def winner?
-		moves = @players[@curr_i].my_moves
-		win = true
-		Board.winners.each do |combo|
-			win = true
-			combo.each do |cel|
-				if ! moves.include?(cel)
-					win = false
-					break
-				end
-			end
-			break if win
-		end
-		win
 	end
 
 	def display_winner(winner=@curr_i)

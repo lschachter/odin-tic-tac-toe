@@ -5,8 +5,7 @@ class Board
    [1,2,3],[4,5,6],[7,8,9],[1,5,9],
    [7,5,3],[1,4,7],[2,5,8],[3,6,9]
    ]
-  attr_reader :moves
-  attr_reader :cels_used
+  attr_reader :moves, :cels_used
 
 	def initialize
 		@moves = [[" 1 "," 2 "," 3 "],\
